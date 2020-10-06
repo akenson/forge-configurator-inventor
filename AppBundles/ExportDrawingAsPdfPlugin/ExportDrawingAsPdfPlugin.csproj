@@ -49,6 +49,9 @@
     <Compile Include="..\..\Shared\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\Shared\TriggerRule.cs">
+      <Link>TriggerRule.cs</Link>
+    </Compile>
     <Compile Include="PluginServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Automation.cs" />

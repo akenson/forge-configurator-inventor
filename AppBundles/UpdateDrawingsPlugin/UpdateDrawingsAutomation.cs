@@ -27,6 +27,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Shared;
 
 namespace UpdateDrawingsPlugin
 {
@@ -82,6 +83,11 @@ namespace UpdateDrawingsPlugin
                     LogTrace($"Updating drawing {filePath}");
                     var drawingDocument = inventorApplication.Documents.Open(filePath);
                     LogTrace("Drawing opened");
+
+                    // Drawing may contain iLogic rules, trigger them if needed
+                    LogTrace("Triggering drawing rules");
+                    TriggerRule.Trigger(drawingDocument, "iTrigger0");
+
                     drawingDocument.Update2(true);
                     LogTrace("Drawing updated");
                     drawingDocument.Save2(true);
@@ -120,6 +126,25 @@ namespace UpdateDrawingsPlugin
             Trace.TraceInformation("Activating default project {0}", project.FullFileName);
             project.Activate(true);
         }
+
+        //private void TriggerDrawingRules(Document doc)
+        //{
+        //    Parameters parameters = ((DrawingDocument)doc).Parameters;
+
+        //    try
+        //    {
+        //        dynamic trigger = parameters["iTrigger0"];
+                    
+        //        // Just inccrement the trigger value, right now only supporting numeric triggers
+        //        trigger.Value++;
+        //        LogTrace("Fired trigger for drawing rules");
+        //    } 
+        //    catch (Exception)
+        //    {
+        //        LogTrace("No drawing rules to trigger");
+        //    }
+           
+        //}
 
         #region Logging utilities
 

@@ -22,6 +22,7 @@ using System.Runtime.InteropServices;
 
 using Inventor;
 using Autodesk.Forge.DesignAutomation.Inventor.Utils;
+using Shared;
 
 namespace ExportDrawingAsPdfPlugin
 {
@@ -68,6 +69,11 @@ namespace ExportDrawingAsPdfPlugin
                     LogTrace("Found drawing to export at: " + drawing);
                     var drawingDocument = inventorApplication.Documents.Open(drawing);
                     LogTrace("Drawing opened");
+
+                    // Drawing may contain iLogic rules, trigger them if needed
+                    LogTrace("Triggering drawing rules");
+                    TriggerRule.Trigger(drawingDocument, "iTrigger0");
+
                     drawingDocument.Update2(true);
                     LogTrace("Drawing updated");
                     drawingDocument.Save2(true);
@@ -102,6 +108,25 @@ namespace ExportDrawingAsPdfPlugin
             Trace.TraceInformation("Activating default project {0}", project.FullFileName);
             project.Activate(true);
         }
+
+        //private void TriggerDrawingRules(Document doc)
+        //{
+        //    Parameters parameters = ((DrawingDocument)doc).Parameters;
+
+        //    try
+        //    {
+        //        dynamic trigger = parameters["iTrigger0"];
+
+        //        // Just inccrement the trigger value, right now only supporting numeric triggers
+        //        trigger.Value++;
+        //        LogTrace("Fired trigger for drawing rules");
+        //    }
+        //    catch (Exception)
+        //    {
+        //        LogTrace("No drawing rules to trigger");
+        //    }
+
+        // }
 
         // Export Drawing file to PDF format
         // In case that the Drawing has more sheets -> it will export PDF with pages
